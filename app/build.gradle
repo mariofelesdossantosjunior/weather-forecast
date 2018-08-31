@@ -1,0 +1,106 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion "28.0.2"
+    defaultConfig {
+        applicationId "com.mario.forecast"
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', 'BASE_URL', '"http://api.openweathermap.org/data/2.5/"'
+            buildConfigField 'String', 'APP_ID', '"app_id"'
+        }
+        debug {
+            buildConfigField 'String', 'BASE_URL', '"http://api.openweathermap.org/data/2.5/"'
+            buildConfigField 'String', 'APP_ID', '"app_id"'
+        }
+    }
+
+    // ADD this to use Parcelize, etc.
+    androidExtensions {
+        experimental = true
+    }
+
+    kapt {
+        generateStubs = true
+    }
+}
+
+dependencies {
+    def constraintLayoutVersion = "1.1.2"
+    def supportVersion = "27.1.1"
+    def roomVersion = "1.1.1"
+    def rxjavaVersion = "2.1.1"
+    def rxAndroidVersion = "2.0.2"
+    def koinVersion = "0.9.3"
+    def retrofit2Version = "2.3.0"
+    def okhttp3Version = "3.11.0"
+    def anko_version = "0.10.4"
+    def fresco_version = "1.9.0"
+    def lifecycle_version = "1.1.1"
+    def play_services_version = "15.0.1"
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "com.android.support:appcompat-v7:$supportVersion"
+    implementation "com.android.support:design:$supportVersion"
+    implementation "com.android.support:recyclerview-v7:$supportVersion"
+    implementation "com.android.support.constraint:constraint-layout:$constraintLayoutVersion"
+    implementation "com.android.support:cardview-v7:$supportVersion"
+    compile "com.android.support:support-vector-drawable:$supportVersion"
+    implementation "com.android.support:design:$supportVersion"
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    //Room
+    compile "android.arch.persistence.room:runtime:$roomVersion"
+    kapt "android.arch.persistence.room:compiler:$roomVersion"
+    implementation "android.arch.persistence.room:rxjava2:$roomVersion"
+
+    //LifeCycle
+    implementation "android.arch.lifecycle:extensions:$lifecycle_version"
+
+    //RxJava & RxAndroid
+    implementation "io.reactivex.rxjava2:rxjava:$rxjavaVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
+
+    // Koin for Android
+    compile "org.koin:koin-android:$koinVersion"
+    compile "org.koin:koin-android-architecture:$koinVersion"
+
+    //Anko
+    implementation "org.jetbrains.anko:anko:$anko_version"
+
+    //Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofit2Version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit2Version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit2Version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3Version"
+
+    //Fresco
+    implementation "com.facebook.fresco:fresco:$fresco_version"
+
+    //Location
+    compile 'pl.charmas.android:android-reactive-location2:2.1@aar'
+    compile "com.google.android.gms:play-services-location:$play_services_version"
+
+    //RunTime Permissions
+    compile 'com.github.maxcruz:reactive-permissions:2.1'
+
+    //Debug Database
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
+
+}
