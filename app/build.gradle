@@ -22,7 +22,7 @@ android {
         }
         debug {
             buildConfigField 'String', 'BASE_URL', '"http://api.openweathermap.org/data/2.5/"'
-            buildConfigField 'String', 'APP_ID', '"app_id"'
+            buildConfigField 'String', 'APP_ID', '"appid"'
         }
     }
 

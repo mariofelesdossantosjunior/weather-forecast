@@ -5,5 +5,6 @@
     <string name="loading">Caregando...</string>
     <string name="acess_location">Você precisa permitir o acesso à sua localização para obter as previsões</string>
     <string name="connection_failure">Não foi possível obter os dados, por favor verifique a sua conexão com a internet.</string>
-    <string name="API_KEY">api_key</string>
+    <string name="API_KEY">api</string>
+    <string name="google_play_service_not_found">Google Play Service indisponivel, o aplicativo não funcionará!</string>
 </resources>
