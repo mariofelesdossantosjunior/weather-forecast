@@ -26,7 +26,8 @@
             android:value="@string/API_KEY" />
 
 
-        <activity android:name=".iu.main.MainActivity">
+        <activity android:name=".iu.main.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
