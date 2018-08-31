@@ -23,6 +23,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.toast
 import org.koin.android.architecture.ext.viewModel
 import pl.charmas.android.reactivelocation2.ReactiveLocationProvider
 import java.util.*
@@ -34,7 +35,7 @@ class MainActivity : AppCompatActivity() {
 
     private val disposable: CompositeDisposable by lazy { CompositeDisposable() }
 
-    private val adapter: DetailAdapter by lazy { DetailAdapter { it } }
+    private val adapter: DetailAdapter by lazy { DetailAdapter { toast(it.weather[0].description) } }
 
     private val locationPermission: Permission by lazy { Permission(Manifest.permission.ACCESS_FINE_LOCATION, R.string.acess_location, false) }
 
