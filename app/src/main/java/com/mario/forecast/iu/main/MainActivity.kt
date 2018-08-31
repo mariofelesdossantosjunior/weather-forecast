@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.location.LocationRequest
 import com.google.android.material.snackbar.Snackbar
 import com.mario.forecast.R
@@ -37,6 +39,8 @@ class MainActivity : AppCompatActivity() {
     private val locationPermission: Permission by lazy { Permission(Manifest.permission.ACCESS_FINE_LOCATION, R.string.acess_location, false) }
 
     private val reactivePermission: ReactivePermissions by lazy { ReactivePermissions(this, REQUEST_CODE_LOCATION) }
+
+    private val googleApiAvailability: GoogleApiAvailability by lazy { GoogleApiAvailability.getInstance() }
 
     private val locationProvider: ReactiveLocationProvider by lazy { ReactiveLocationProvider(this) }
 
@@ -81,17 +85,28 @@ class MainActivity : AppCompatActivity() {
     private fun findLocation() {
         showProgress(true)
 
-        disposable.add(locationProvider.lastKnownLocation.subscribe {
-            it?.let {
-                findForecast(it.latitude.toString(), it.longitude.toString())
-            }
-        })
+        val status = googleApiAvailability.isGooglePlayServicesAvailable(this)
 
-        disposable.add(locationProvider.getUpdatedLocation(locationRequest).subscribe {
-            it?.let {
-                findForecast(it.latitude.toString(), it.longitude.toString())
+        if (status == ConnectionResult.SUCCESS) {
+            disposable.add(locationProvider.lastKnownLocation.subscribe {
+                it?.let {
+                    findForecast(it.latitude.toString(), it.longitude.toString())
+                }
+            })
+
+            disposable.add(locationProvider.getUpdatedLocation(locationRequest).subscribe {
+                it?.let {
+                    findForecast(it.latitude.toString(), it.longitude.toString())
+                }
+            })
+
+        } else {
+            if (googleApiAvailability.isUserResolvableError(status)) {
+                googleApiAvailability.getErrorDialog(this, status, 1).show()
+            } else {
+                Snackbar.make(container, R.string.google_play_service_not_found, Snackbar.LENGTH_INDEFINITE).show();
             }
-        })
+        }
     }
 
     /**
